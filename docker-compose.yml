@@ -23,9 +23,13 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - /data:/data
+      - cache:/data
     networks:
       - prod-network
 networks:
   prod-network:
     driver: "bridge"
+volumes:
+  cache:
+    driver: local
+
