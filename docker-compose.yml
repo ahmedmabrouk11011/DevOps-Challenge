@@ -6,7 +6,7 @@ services:
     ports:
       - 8000:8000
     environment:
-      - ENVIRONMENT=PROD
+      - ENVIRONMENT=DEV
       - HOST=localhost
       - PORT=8000
       - REDIS_HOST=redis
