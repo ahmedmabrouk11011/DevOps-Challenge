@@ -14,9 +14,16 @@ services:
       - REDIS_DB=0
     depends_on:
       - redis
+    networks:
+      - prod-network
   redis:
     container_name: redis_container
     image: redis
     restart: always
     ports:
       - "6379:6379"
+    networks:
+      - prod-network
+networks:
+  prod-network:
+    driver: "bridge"
