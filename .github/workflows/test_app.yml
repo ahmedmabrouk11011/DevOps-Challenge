@@ -1,30 +1,16 @@
 name: Python CI/CD
 
 on: push
+paths:
+    - 'example.c'
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   Test:
     runs-on: ubuntu-latest
     steps:
-    
-      # Runs a single command using the runners shell, using run:
-      - run: echo "Job automatically triggered by event ${{ github.event_name }}."
-      
-      # Runs a set of commands using the runners shell, using run: |
-      - run: |
-          echo "Job running on a ${{ runner.os }} server hosted by GitHub."
-          echo "On branch ${{ github.ref }} of repository ${{ github.repository }}."
-          
       - name: Check out repository code so it can be run by GitHub
         uses: actions/checkout@v2
-        
-      - run: echo "The ${{ github.repository }} repository has been cloned to the runner."
-      
-      - name: List files in repository
-        run: |
-          echo "The contents of the repository are:"
-          ls ${{ github.workspace }}
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -61,6 +47,27 @@ jobs:
     needs: Build
     runs-on: ubuntu-latest
     steps:
+    - name: Checkout 
+      uses: actions/checkout@v2
+
+    - name: Checking docker compose changes
+      uses: tj-actions/verify-changed-files@v5.5
+      id: changed_docker_compose
+      with:
+        files: |
+          docker-compose.yml
+
+    - name: Display changed files
+      if: steps.changed_files.outputs.files_changed == 'true'
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        script: |
+          cd /home/ubuntu/tradebyte-app
+          cat docker-compose.yml >> docker-compose.yml
+
     - name: Deploy Docker Compose
       uses: appleboy/ssh-action@master
       with:
