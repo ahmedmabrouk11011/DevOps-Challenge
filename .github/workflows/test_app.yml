@@ -55,15 +55,16 @@ jobs:
         files: |
           docker-compose.yml
 
-    - name: Display changed files
-      if: steps.changed_files.outputs.files_changed == 'true'
+    - name: Update Docker Compose File on VM
+      if: steps.changed_docker_compose.outputs.files_changed == 'true'
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
         script: |
-          cat docker-compose.yml
+          rm docker-compose.yml 
+          cat docker-compose.yml >> /home/ubuntu/tradebyte-app/docker-compose.yml
           
 
     - name: Deploy Docker Compose
