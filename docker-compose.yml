@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  web:
+    container_name: web_container
+    build: .
+    command: python hello.py
+    ports:
+      - 8000:8000
+    environment:
+      - ENVIRONMENT=DEV
+      - HOST=localhost
+      - PORT=8000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=0
+    depends_on:
+      - redis
+  redis:
+    container_name: redis_container
+    image: redis
+    restart: always
+    ports:
+      - "6379:6379"
