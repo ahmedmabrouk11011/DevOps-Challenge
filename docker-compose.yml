@@ -10,24 +10,24 @@ services:
       - HOST=localhost
       - PORT=9000
       - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_PORT=6378
       - REDIS_DB=0
     depends_on:
       - redis
     networks:
-      - prod-network
+      - dev-network
   redis:
     container_name: redis_container
     image: redis
     restart: always
     ports:
-      - "6379:6379"
+      - "6378:6379"
     volumes:
       - cache:/data
     networks:
-      - prod-network
+      - dev-network
 networks:
-  prod-network:
+  dev-network:
     driver: "bridge"
 volumes:
   cache:
