@@ -48,15 +48,7 @@ jobs:
     - name: Checkout 
       uses: actions/checkout@v2
 
-    - name: Checking docker compose changes
-      uses: tj-actions/verify-changed-files@v5.5
-      id: changed_docker_compose
-      with:
-        files: |
-          docker-compose.yml
-
     - name: Update Docker Compose File on VM
-      if: steps.changed_docker_compose.outputs.files_changed == 'true'
       uses: appleboy/scp-action@master
       with:
         host: ${{ secrets.HOST }}
