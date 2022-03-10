@@ -57,8 +57,8 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.KEY }}
-        source: "DEV/docker-compose.yml"
-        target: "/home/ubuntu/tradebyte-app-dev/"
+        source: "docker-compose.yml"
+        target: "/home/ubuntu/tradebyte-app-dev"
           
 
     - name: Deploy Docker Compose
